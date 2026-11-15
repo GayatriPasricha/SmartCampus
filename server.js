@@ -2,11 +2,12 @@
 // --------------------------------------------------
 // Application Entry Point
 // --------------------------------------------------
-// Initializes the Express application, loads
-// environment variables, connects to MongoDB,
-// registers all route modules, applies global
-// middleware (CORS, JSON parsing, error handling),
-// and starts the HTTP server.
+// This is the main file that starts our backend.
+// It does 4 things in order:
+//   1. Loads environment variables (.env)
+//   2. Connects to MongoDB
+//   3. Sets up middleware (CORS, JSON parsing)
+//   4. Mounts API routes and starts the server
 // --------------------------------------------------
 
 const express = require('express');
@@ -14,41 +15,48 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
 
-// Load environment variables
+// Step 1: Load environment variables from .env file
 dotenv.config();
 
 // Import route modules
 const authRoutes = require('./routes/authRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
 const userRoutes = require('./routes/userRoutes');
-const assignmentRoutes = require('./routes/assignmentRoutes');
-const announcementRoutes = require('./routes/announcementRoutes');
-const complaintRoutes = require('./routes/complaintRoutes');
 
-// Import error-handling middleware
-const errorMiddleware = require('./middleware/errorMiddleware');
-
+// Create the Express application
 const app = express();
 
-// --- Global Middleware ---
+// Step 2: Global Middleware
 app.use(cors());
 app.use(express.json());
 
-// --- API Routes ---
-// TODO: Mount routes, e.g.:
-// app.use('/api/auth', authRoutes);
-// app.use('/api/attendance', attendanceRoutes);
-// app.use('/api/users', userRoutes);
+// Step 3: Test Route
+app.get('/api/test', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Smart Campus Management System API is running!',
+  });
+});
+
+// Step 4: Mount API Routes
+// Every request to /api/auth/...        → handled by authRoutes
+// Every request to /api/attendance/...   → handled by attendanceRoutes
+// Every request to /api/users/...        → handled by userRoutes
+app.use('/api/auth', authRoutes);
+app.use('/api/attendance', attendanceRoutes);
+app.use('/api/users', userRoutes);
+
+// ----- Routes for other team members (not yet implemented) -----
 // app.use('/api/assignments', assignmentRoutes);
 // app.use('/api/announcements', announcementRoutes);
 // app.use('/api/complaints', complaintRoutes);
 
-// --- Error Handling ---
-// TODO: app.use(errorMiddleware);
-
+// Step 5: Read the port from .env (or default to 5000)
 const PORT = process.env.PORT || 5000;
 
-// TODO: Connect to DB then start server
-// connectDB().then(() => {
-//   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-// });
+// Step 6: Connect to MongoDB, then start the server
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+});
