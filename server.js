@@ -22,6 +22,8 @@ dotenv.config();
 const authRoutes = require('./routes/authRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
 const userRoutes = require('./routes/userRoutes');
+const assignmentRoutes = require('./routes/assignmentRoutes');
+const submissionRoutes = require('./routes/submissionRoutes');
 
 // Create the Express application
 const app = express();
@@ -46,8 +48,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/users', userRoutes);
 
+app.use('/api/assignments', assignmentRoutes);
+app.use('/api/submissions', submissionRoutes);
+
 // ----- Routes for other team members (not yet implemented) -----
-// app.use('/api/assignments', assignmentRoutes);
 // app.use('/api/announcements', announcementRoutes);
 // app.use('/api/complaints', complaintRoutes);
 
