@@ -179,3 +179,57 @@ export const userApi = {
     return request(`/users${qs ? `?${qs}` : ''}`);
   },
 };
+
+// --------------------------------------------------
+// Assignments & Submissions API (Assigned Module)
+// --------------------------------------------------
+export const assignmentApi = {
+  // Get all assignments with optional query params (search, subject, page, limit)
+  getAll: (params = {}) => {
+    const query = new URLSearchParams();
+    if (params.search) query.append('search', params.search);
+    if (params.subject) query.append('subject', params.subject);
+    if (params.page) query.append('page', params.page);
+    if (params.limit) query.append('limit', params.limit);
+
+    const qs = query.toString();
+    return request(`/assignments${qs ? `?${qs}` : ''}`);
+  },
+
+  // Get single assignment
+  getById: (id) => request(`/assignments/${id}`),
+
+  // Create assignment (faculty/admin)
+  create: (data) =>
+    request('/assignments', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  // Update assignment (faculty/admin)
+  update: (id, data) =>
+    request(`/assignments/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    }),
+
+  // Delete assignment (faculty/admin)
+  delete: (id) =>
+    request(`/assignments/${id}`, {
+      method: 'DELETE',
+    }),
+
+  // Student submits assignment
+  submit: (assignmentId, data) =>
+    request(`/assignments/${assignmentId}/submissions`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  // Faculty views submissions for an assignment
+  getSubmissions: (assignmentId) =>
+    request(`/assignments/${assignmentId}/submissions`),
+
+  // Student views their own submissions
+  getMySubmissions: () => request('/submissions/my'),
+};

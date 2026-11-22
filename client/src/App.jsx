@@ -9,6 +9,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Attendance from './pages/Attendance';
 import Users from './pages/Users';
+import Assignments from './pages/Assignments';
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/attendance" element={<Attendance />} />
               <Route path="/users" element={<Users />} />
+              <Route path="/assignments" element={<Assignments />} />
             </Route>
 
             {/* Catch-all redirect */}

@@ -32,6 +32,11 @@ export default function Navbar() {
             </NavLink>
           </li>
           <li>
+            <NavLink to="/assignments" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+              Assignments
+            </NavLink>
+          </li>
+          <li>
             <NavLink to="/users" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
               Users
             </NavLink>
