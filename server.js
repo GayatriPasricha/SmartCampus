@@ -26,6 +26,7 @@ const assignmentRoutes = require('./routes/assignmentRoutes');
 const submissionRoutes = require('./routes/submissionRoutes');
 const announcementRoutes = require('./routes/announcementRoutes');
 const complaintRoutes = require('./routes/complaintRoutes');
+const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 // Create the Express application
 const app = express();
@@ -55,6 +56,10 @@ app.use('/api/submissions', submissionRoutes);
 
 app.use('/api/announcements', announcementRoutes);
 app.use('/api/complaints', complaintRoutes);
+
+// Error handling — must come after all routes
+app.use(notFound);
+app.use(errorHandler);
 
 // Step 5: Read the port from .env (or default to 5000)
 const PORT = process.env.PORT || 5000;
