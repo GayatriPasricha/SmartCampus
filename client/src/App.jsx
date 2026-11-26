@@ -10,6 +10,8 @@ import Dashboard from './pages/Dashboard';
 import Attendance from './pages/Attendance';
 import Users from './pages/Users';
 import Assignments from './pages/Assignments';
+import Announcements from './pages/Announcements';
+import Complaints from './pages/Complaints';
 
 export default function App() {
   return (
@@ -29,6 +31,8 @@ export default function App() {
               <Route path="/attendance" element={<Attendance />} />
               <Route path="/users" element={<Users />} />
               <Route path="/assignments" element={<Assignments />} />
+              <Route path="/announcements" element={<Announcements />} />
+              <Route path="/complaints" element={<Complaints />} />
             </Route>
 
             {/* Catch-all redirect */}
