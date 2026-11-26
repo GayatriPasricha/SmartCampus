@@ -25,6 +25,7 @@ const userRoutes = require('./routes/userRoutes');
 const assignmentRoutes = require('./routes/assignmentRoutes');
 const submissionRoutes = require('./routes/submissionRoutes');
 const announcementRoutes = require('./routes/announcementRoutes');
+const complaintRoutes = require('./routes/complaintRoutes');
 
 // Create the Express application
 const app = express();
@@ -52,9 +53,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/assignments', assignmentRoutes);
 app.use('/api/submissions', submissionRoutes);
 
-// ----- Routes for other team members (not yet implemented) -----
 app.use('/api/announcements', announcementRoutes);
-// app.use('/api/complaints', complaintRoutes);
+app.use('/api/complaints', complaintRoutes);
 
 // Step 5: Read the port from .env (or default to 5000)
 const PORT = process.env.PORT || 5000;
