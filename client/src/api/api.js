@@ -233,3 +233,71 @@ export const assignmentApi = {
   // Student views their own submissions
   getMySubmissions: () => request('/submissions/my'),
 };
+
+// --------------------------------------------------
+// Announcements API (Assigned Module)
+// --------------------------------------------------
+export const announcementApi = {
+  getAll: (params = {}) => {
+    const query = new URLSearchParams();
+    if (params.search) query.append('search', params.search);
+    if (params.audience) query.append('audience', params.audience);
+    if (params.page) query.append('page', params.page);
+    if (params.limit) query.append('limit', params.limit);
+
+    const qs = query.toString();
+    return request(`/announcements${qs ? `?${qs}` : ''}`);
+  },
+
+  // Post announcement (faculty/admin)
+  create: (data) =>
+    request('/announcements', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  update: (id, data) =>
+    request(`/announcements/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    }),
+
+  delete: (id) =>
+    request(`/announcements/${id}`, {
+      method: 'DELETE',
+    }),
+};
+
+// --------------------------------------------------
+// Complaints API (Assigned Module)
+// --------------------------------------------------
+export const complaintApi = {
+  // Student/faculty register a complaint
+  create: (data) =>
+    request('/complaints', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  // My own complaints
+  getMine: () => request('/complaints/me'),
+
+  // Admin: all complaints with status filter and pagination
+  getAll: (params = {}) => {
+    const query = new URLSearchParams();
+    if (params.status) query.append('status', params.status);
+    if (params.search) query.append('search', params.search);
+    if (params.page) query.append('page', params.page);
+    if (params.limit) query.append('limit', params.limit);
+
+    const qs = query.toString();
+    return request(`/complaints${qs ? `?${qs}` : ''}`);
+  },
+
+  // Admin: change status and add remarks
+  updateStatus: (id, status, remarks) =>
+    request(`/complaints/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status, remarks }),
+    }),
+};
