@@ -1,15 +1,13 @@
-// models/Announcement.js
-// --------------------------------------------------
-// Announcement Model
-// --------------------------------------------------
-// Defines the Mongoose schema and model for campus
-// announcements. Fields may include title, message,
-// target audience (all/students/faculty), posted-by
-// reference, and timestamps.
-// --------------------------------------------------
-
 const mongoose = require('mongoose');
 
-// TODO: Define Announcement schema and export model
+const announcementSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: [true, 'Title is required'], trim: true, maxlength: [150, 'Title cannot exceed 150 characters'] },
+    message: { type: String, required: [true, 'Message is required'], trim: true },
+    audience: { type: String, enum: ['all', 'student', 'faculty'], default: 'all' },
+    postedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  },
+  { timestamps: true }
+);
 
-module.exports = mongoose.model('Announcement', new mongoose.Schema({}));
+module.exports = mongoose.model('Announcement', announcementSchema);
